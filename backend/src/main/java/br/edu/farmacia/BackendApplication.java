@@ -1,4 +1,4 @@
-package br.edu.farmacia.backend;
+package br.edu.farmacia;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

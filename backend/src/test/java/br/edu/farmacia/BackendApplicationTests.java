@@ -1,4 +1,4 @@
-package br.edu.farmacia.backend;
+package br.edu.farmacia;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
