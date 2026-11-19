@@ -1,0 +1,31 @@
+# Arquivos que nao devem ir para o repositorio.
+
+# Segredos e configuracoes locais
+.env
+.env.*
+!.env.example
+
+# Java e Maven
+target/
+*.class
+*.log
+
+# IDEs e editores
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.vscode/
+.settings/
+.project
+.classpath
+
+# Frontend (Node.js)
+node_modules/
+dist/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
