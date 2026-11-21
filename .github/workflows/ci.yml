@@ -23,28 +23,38 @@ jobs:
       run:
         working-directory: backend
 
-    services:
-      postgres:
-        image: postgres:18
-        env:
-          POSTGRES_DB: farmacia_test
-          POSTGRES_USER: farmacia
-          POSTGRES_PASSWORD: farmacia
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U farmacia -d farmacia_test"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 10
-
     env:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/farmacia_test
       SPRING_DATASOURCE_USERNAME: farmacia
-      SPRING_DATASOURCE_PASSWORD: farmacia
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Gerar senha efêmera do banco
+        run: |
+          PW="$(openssl rand -hex 16)"
+          echo "::add-mask::$PW"
+          echo "SPRING_DATASOURCE_PASSWORD=$PW" >> "$GITHUB_ENV"
+
+      - name: Subir PostgreSQL
+        run: |
+          docker run -d --name postgres \
+            -p 127.0.0.1:5432:5432 \
+            -e POSTGRES_DB=farmacia_test \
+            -e POSTGRES_USER=farmacia \
+            -e POSTGRES_PASSWORD="$SPRING_DATASOURCE_PASSWORD" \
+            --health-cmd "pg_isready -U farmacia -d farmacia_test" \
+            --health-interval 5s \
+            --health-timeout 5s \
+            --health-retries 10 \
+            postgres:18
+          for i in $(seq 1 30); do
+            status="$(docker inspect -f '{{.State.Health.Status}}' postgres)"
+            [ "$status" = "healthy" ] && exit 0
+            sleep 2
+          done
+          docker logs postgres
+          exit 1
 
       - uses: actions/setup-java@v4
         with:
