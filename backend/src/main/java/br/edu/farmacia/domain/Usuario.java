@@ -14,13 +14,13 @@ public class Usuario {
   private final LocalDateTime criadoEm;
 
   public Usuario(
-    Long id,
-    String nomeCompleto,
-    String login,
-    String senhaHash,
-    Perfil perfil,
-    boolean ativo,
-    LocalDateTime criadoEm) {
+      Long id,
+      String nomeCompleto,
+      String login,
+      String senhaHash,
+      Perfil perfil,
+      boolean ativo,
+      LocalDateTime criadoEm) {
     this.id = id;
     this.nomeCompleto = exigirTexto(nomeCompleto, "nome completo");
     this.login = exigirTexto(login, "login");
