@@ -35,8 +35,10 @@ public class Usuario {
   }
 
   public void alterarDados(String nomeCompleto, Perfil perfil) {
-    this.nomeCompleto = exigirTexto(nomeCompleto, "nome completo");
-    this.perfil = exigirPerfil(perfil);
+    String nomeValidado = exigirTexto(nomeCompleto, "nome completo");
+    Perfil perfilValidado = exigirPerfil(perfil);
+    this.nomeCompleto = nomeValidado;
+    this.perfil = perfilValidado;
   }
 
   public void alterarSenha(String senhaHash) {
